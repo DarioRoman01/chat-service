@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  mongo:
+    container_name: deflos-chat-db
+    image: mongo:latest
+    restart: on-failure
+    command: [--auth]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_DATABASE: delfos
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/data/db
+    networks:
+      - delfos-chat-network
+
+  service:
+    container_name: delfos-chat-service
+    build:
+      args:
+        - GO_CMD=delfos-chat-service
+      dockerfile: Dockerfile
+      context: "."
+    depends_on:
+      mongo:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env
+    networks:
+      - delfos-chat-network
+
+volumes:
+  mongo:
+    driver: local
+networks:
+  delfos-chat-network:
+    driver: bridge
