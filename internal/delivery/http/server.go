@@ -14,6 +14,6 @@ func New(service *service.Service, logger *zap.Logger) *fiber.App {
 	server.Use(cors.New())
 	server.Use(http.LogMiddleware(logger))
 	router := server.Group("delfos/api/v1")
-	routes.New(service, router)
+	routes.NewChatDelivery(service, router)
 	return server
 }

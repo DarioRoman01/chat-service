@@ -26,6 +26,7 @@ type (
 		MongoHost              string `env:"MONGODB_HOST,required=true"`
 		MongoDBName            string `env:"MONGODB_DATABASE,required=true"`
 		MongoMessageCollection string `env:"MONGODB_MESSAGES_COLLECTION,required=true"`
+		MongoChannelCollection string `env:"MONGODB_CHANNELS_COLLECTION,required=true"`
 	}
 )
 

@@ -11,6 +11,10 @@ func New(message string) error {
 	return merry.New(message)
 }
 
+func Newf(message string, args ...any) error {
+	return merry.New(fmt.Sprintf(message, args...))
+}
+
 func Wrap(err error, message string) error {
 	return merry.Prepend(err, message)
 }

@@ -33,6 +33,8 @@ type Config struct {
 
 	MessagesCollection string
 
+	ChannelsCollection string
+
 	HttpPort string
 }
 
@@ -41,6 +43,7 @@ func New(conf *Config) *Application {
 		Mongo:              conf.Mongo,
 		Ctx:                conf.Ctx,
 		MessagesCollection: conf.MessagesCollection,
+		ChannelCollection:  conf.ChannelsCollection,
 	})
 
 	svc := service.New(repository)

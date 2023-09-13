@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	ctx := context.TODO()
+	ctx := context.Background()
 	var conf config.Config
 	_, err := env.UnmarshalFromEnviron(&conf)
 	if err != nil {
@@ -45,10 +45,10 @@ func main() {
 		Mongo:              mongo,
 		HttpPort:           conf.HttpPort,
 		MessagesCollection: conf.MongoMessageCollection,
+		ChannelsCollection: conf.MongoChannelCollection,
 	})
 
-	err = app.Start()
-	if err != nil {
+	if err = app.Start(); err != nil {
 		logger.Fatal(fmt.Sprintf("main: app.Start error: %v", err))
 	}
 }

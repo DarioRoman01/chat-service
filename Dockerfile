@@ -1,4 +1,4 @@
-FROM golang:1.19 as builder
+FROM golang:1.21 as builder
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/${GO_CMD} github.com/DarioRoman01/delfos-chat/cmd/${GO_CMD}
 
 
-FROM golang:1.19-alpine
+FROM golang:1.21-alpine
 ARG GO_CMD
 ENV GO_CMD=${GO_CMD}
 

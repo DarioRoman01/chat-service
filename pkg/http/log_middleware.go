@@ -11,7 +11,7 @@ func LogMiddleware(logger *zap.Logger) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		baseLogMessage := logger.With(
 			zap.String("path", string(c.Request().URI().Path())),
-			zap.String("method", c.Route().Method),
+			zap.String("method", string(c.Request().Header.Method())),
 		)
 
 		requestQuery := c.Request().URI().QueryArgs().String()
@@ -21,14 +21,14 @@ func LogMiddleware(logger *zap.Logger) fiber.Handler {
 
 		start := time.Now()
 		err := c.Next()
-		t := time.Since(start)
+		elapsed := time.Since(start)
 
 		if err != nil {
-			baseLogMessage.Log(zap.ErrorLevel, err.Error(), zap.Duration("time", t))
+			baseLogMessage.Log(zap.ErrorLevel, err.Error(), zap.Duration("time", elapsed))
 			return err
 		}
 
-		baseLogMessage.Log(zap.InfoLevel, "completed request", zap.Duration("time", t))
+		baseLogMessage.Log(zap.InfoLevel, "completed request", zap.Duration("time", elapsed))
 		return nil
 	}
 }

@@ -12,3 +12,8 @@ type MessageRepository interface {
 	// Updates the given record message
 	Update(*entities.Message) (*entities.Message, error)
 }
+
+type ChannelRepository interface {
+	Create(*entities.Channel) (*entities.Channel, error)
+	Exists(channelId string) (bool, error)
+}

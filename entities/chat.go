@@ -14,25 +14,19 @@ const (
 )
 
 type Message struct {
-	Id ulid.ULID `json:"id" bson:"id"` // id of the message
-
-	Type MessageType `json:"-" bson:"-"` // type of the message that is sent
-
-	Content string `json:"content" bson:"content"` // text content inside the message
-
-	Media string `json:"media" bson:"media"` // possible media inside the message, not defined yet how to handle this
-
-	SentBy string `json:"sentBy" bson:"sentBy"` // who sent the message
-
-	RecievedBy []string `json:"recievedBy" bson:"recievedBy"` // who recieved the message
-
-	Seenby []string `json:"seenBy" bson:"seenBy"`
-
-	Channel string `json:"channel" bson:"channel"` // channel id where the message was sent
-
-	Tournament string `json:"tournament" bson:"tournament"` // possible tournament where the message comes from
-
-	CreatedAt time.Time `json:"createdAt" bson:"createdAt"` // creation timestamp
+	Id         ulid.ULID   `json:"id" bson:"id"`
+	Type       MessageType `json:"type" bson:"-"`
+	Content    string      `json:"content" bson:"content"`
+	Media      string      `json:"media" bson:"media"`
+	SentBy     string      `json:"sentBy" bson:"sentBy"`
+	RecievedBy []string    `json:"recievedBy" bson:"recievedBy"`
+	Seenby     []string    `json:"seenBy" bson:"seenBy"`
+	Channel    string      `json:"channel" bson:"channel"`
+	CreatedAt  time.Time   `json:"createdAt" bson:"createdAt"`
 }
 
-// TODO: maybe a possible chat struct?
+type Channel struct {
+	Id         string `json:"id" bson:"id"`
+	Tournament string `json:"tournament" bson:"tournament"`
+	Public     bool   `json:"public" bson:"public"`
+}

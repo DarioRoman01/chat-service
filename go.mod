@@ -1,6 +1,6 @@
 module github.com/DarioRoman01/delfos-chat
 
-go 1.19
+go 1.21
 
 require (
 	github.com/Netflix/go-env v0.0.0-20220526054621-78278af1949d
@@ -10,9 +10,9 @@ require (
 	github.com/google/uuid v1.3.1
 	github.com/oklog/ulid/v2 v2.1.0
 	go.mongodb.org/mongo-driver v1.12.1
+	go.uber.org/multierr v1.10.0 
 )
 
-require go.uber.org/multierr v1.10.0 // indirect
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
