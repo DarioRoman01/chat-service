@@ -7,50 +7,61 @@ import (
 	"github.com/gofiber/contrib/websocket"
 )
 
-type Client struct {
-	Conn *websocket.Conn
+type client struct {
+	conn *websocket.Conn
 }
 
-type Channel struct {
-	clients   map[*Client]bool
-	Broadcast chan *entities.Message
-	Joining   chan *Client
-	Leaving   chan *Client
+type channel struct {
+	clients   map[*client]bool
+	broadcast chan *entities.Message
+	joining   chan *client
+	leaving   chan *client
+	close     chan struct{}
 }
 
-func NewChannel() *Channel {
-	return &Channel{
-		clients:   make(map[*Client]bool),
-		Broadcast: make(chan *entities.Message),
-		Joining:   make(chan *Client),
-		Leaving:   make(chan *Client),
+func NewChannel() *channel {
+	return &channel{
+		clients:   make(map[*client]bool),
+		broadcast: make(chan *entities.Message),
+		joining:   make(chan *client),
+		leaving:   make(chan *client),
+		close:     make(chan struct{}),
 	}
 }
 
-func (c *Channel) Run() {
+func (c *channel) Run() {
 	for {
 		select {
-		case client := <-c.Joining:
+		case client := <-c.joining:
 			c.clients[client] = true
 
-		case client := <-c.Leaving:
+		case client := <-c.leaving:
 			delete(c.clients, client)
-			client.Conn.Close()
+			client.conn.Close()
 
-		case message := <-c.Broadcast:
+		case message := <-c.broadcast:
 			for client := range c.clients {
-				err := client.Conn.WriteJSON(message)
+				err := client.conn.WriteJSON(message)
 				if err != nil {
 					return
 				}
 			}
+
+		case <-c.close:
+			close(c.broadcast)
+			close(c.joining)
+			close(c.leaving)
+			close(c.close)
+			return
 		}
 	}
 }
 
-func (c *Channel) Close() {
+func (c *channel) Close() {
 	for client := range c.clients {
-		client.Conn.WriteControl(websocket.CloseMessage, []byte("closing connection"), time.Now().Add(time.Second*2))
+		client.conn.WriteControl(websocket.CloseMessage, []byte("closing connection"), time.Now().Add(time.Second*2))
 		delete(c.clients, client)
 	}
+
+	c.close <- struct{}{}
 }

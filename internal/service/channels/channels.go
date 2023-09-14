@@ -24,7 +24,7 @@ func (c *ChannelService) Create(channelId string) error {
 	})
 
 	if err != nil {
-		return errors.Wrap(err, "channels: Create c.repository.Channels.Create error")
+		return errors.Wrap(err, "channels: ChannelService.Create c.repository.Channels.Create error")
 	}
 
 	return nil

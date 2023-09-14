@@ -32,7 +32,7 @@ func New(conf *Config) *ChannelRepository {
 func (c *ChannelRepository) Create(channel *entities.Channel) (*entities.Channel, error) {
 	_, err := c.collection.InsertOne(c.ctx, channel)
 	if err != nil {
-		return nil, errors.Wrap(err, "channel: Create c.collection.InsertOne error")
+		return nil, errors.Wrap(err, "channel: ChannelRepository.Create c.collection.InsertOne error")
 	}
 
 	return channel, nil
@@ -43,7 +43,7 @@ func (c *ChannelRepository) Exists(channelId string) (bool, error) {
 
 	var channel entities.Channel
 	if err := result.Decode(&channel); err != nil {
-		return false, errors.Wrap(err, "channel: Get result.Decode error")
+		return false, errors.Wrap(err, "channel: ChannelRepository.Get result.Decode error")
 	}
 
 	return channel.Id == channelId, nil

@@ -19,7 +19,7 @@ func New(repo *repository.Repository) *MessageService {
 func (m *MessageService) Get(channelId string) ([]*entities.Message, error) {
 	messages, err := m.repository.Messages.Get(channelId)
 	if err != nil {
-		return nil, errors.Wrap(err, "messages: Get m.repository.Messages.Get error")
+		return nil, errors.Wrap(err, "messages: MessageService.Get m.repository.Messages.Get error")
 	}
 
 	return messages, nil

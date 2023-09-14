@@ -15,31 +15,34 @@ import (
 
 type ChatService struct {
 	repository *repository.Repository
-	channels   map[string]*Channel
+	channels   map[string]*channel
 }
 
 func New(repository *repository.Repository) *ChatService {
 	return &ChatService{
 		repository: repository,
-		channels:   make(map[string]*Channel),
+		channels:   make(map[string]*channel),
 	}
 }
 
 func (c *ChatService) HandleConnection(conn *websocket.Conn, channelId string) {
 	channel, err := c.getChannel(channelId)
 	if err != nil {
-		c.closeConnWIthErr(conn, errors.Wrap(err, "messages: HandleConnection error"))
+		c.closeConnWIthErr(conn, errors.Wrap(err, "messages: ChatService.HandleConnection c.getChannel error"))
 		return
 	}
 
-	client := &Client{Conn: conn}
-	channel.Joining <- client
-	defer func() { channel.Leaving <- client }()
+	client := &client{conn}
+	channel.joining <- client
 
 	for {
 		message := new(entities.Message)
 		connIsFinished := c.readJSON(conn, message)
 		if connIsFinished {
+			if _, ok := c.channels[channelId]; ok {
+				// if the channel stills exists means that the client end up the connection
+				channel.leaving <- client
+			}
 			return
 		}
 
@@ -58,24 +61,24 @@ func (c *ChatService) HandleConnection(conn *websocket.Conn, channelId string) {
 
 			if err != nil {
 				conn.WriteJSON(fiber.Map{
-					"errors": errors.Wrap(err, "messages: HandleConnection m.repository.Messages.Create error").Error(),
+					"errors": errors.Wrap(err, "messages: ChatService.HandleConnection m.repository.Messages.Create error").Error(),
 				})
 				continue
 			}
 
-			channel.Broadcast <- message
+			channel.broadcast <- message
 
 		case entities.UpdateMessage:
 			message, err := c.repository.Messages.Update(message)
 			if err != nil {
 				conn.WriteJSON(fiber.Map{
-					"errors": errors.Wrap(err, "message: HandleConnection m.repository.Messages.Update error").Error(),
+					"errors": errors.Wrap(err, "message: ChatService.HandleConnection m.repository.Messages.Update error").Error(),
 				})
 
 				continue
 			}
 
-			channel.Broadcast <- message
+			channel.broadcast <- message
 		}
 
 	}
@@ -84,7 +87,7 @@ func (c *ChatService) HandleConnection(conn *websocket.Conn, channelId string) {
 func (c *ChatService) CloseChannel(channelId string) error {
 	channel, ok := c.channels[channelId]
 	if !ok {
-		return errors.Newf("messages: Closechannel error: no running channel with id: %s", channelId)
+		return errors.Newf("messages: ChatService.Closechannel error: no running channel with id: %s", channelId)
 	}
 
 	channel.Close()
@@ -92,16 +95,16 @@ func (c *ChatService) CloseChannel(channelId string) error {
 	return nil
 }
 
-func (c *ChatService) getChannel(channelId string) (*Channel, error) {
+func (c *ChatService) getChannel(channelId string) (*channel, error) {
 	channel, ok := c.channels[channelId]
 	if !ok {
 		ok, err := c.repository.Channels.Exists(channelId)
 		if err != nil {
-			return nil, errors.Wrap(err, "channels: Get c.repository.Channels.Get error")
+			return nil, errors.Wrap(err, "channels: ChatService.Get c.repository.Channels.Get error")
 		}
 
 		if !ok {
-			return nil, errors.Newf("channels: Get c.repository.Channels.Exists error: channel does not exists")
+			return nil, errors.Newf("channels: ChatService.Get c.repository.Channels.Exists error: channel does not exists")
 		}
 
 		channel = NewChannel()
@@ -126,7 +129,7 @@ func (c *ChatService) readJSON(conn *websocket.Conn, v interface{}) (connIsFinis
 
 	if err != nil {
 		conn.WriteJSON(fiber.Map{
-			"errors": errors.Wrap(err, "messages: HandleConnection conn.ReadJson error").Error(),
+			"errors": errors.Wrap(err, "messages: ChatService.readJson conn.NextReader error").Error(),
 		})
 	}
 
@@ -138,7 +141,7 @@ func (c *ChatService) readJSON(conn *websocket.Conn, v interface{}) (connIsFinis
 
 	if err != nil {
 		conn.WriteJSON(fiber.Map{
-			"errors": errors.Wrap(err, "messages: HandleConnection conn.ReadJson error").Error(),
+			"errors": errors.Wrap(err, "messages: ChatService.readJson json.NewDecoder.Decode error").Error(),
 		})
 	}
 

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/DarioRoman01/delfos-chat/pkg/errors"
 	"github.com/Netflix/go-env"
 )
 
@@ -34,7 +35,7 @@ func New() (*Config, error) {
 	var conf Config
 	_, err := env.UnmarshalFromEnviron(&conf)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "config: New env.UnmarshalFromEnviron error")
 	}
 
 	return &conf, nil

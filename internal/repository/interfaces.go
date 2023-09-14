@@ -15,5 +15,5 @@ type MessageRepository interface {
 
 type ChannelRepository interface {
 	Create(*entities.Channel) (*entities.Channel, error)
-	Exists(channelId string) (bool, error)
+	Exists(string) (bool, error)
 }
