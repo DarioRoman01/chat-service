@@ -14,13 +14,13 @@ services:
     volumes:
       - mongo:/data/db
     networks:
-      - delfos-chat-network
+      - chat-service-network
 
   service:
-    container_name: delfos-chat-service
+    container_name: chat-service
     build:
       args:
-        - GO_CMD=delfos-chat-service
+        - GO_CMD=chat-service
       dockerfile: Dockerfile
       context: "."
     depends_on:
@@ -31,11 +31,11 @@ services:
     env_file:
       - ./.env
     networks:
-      - delfos-chat-network
+      - chat-service-network
 
 volumes:
   mongo:
     driver: local
 networks:
-  delfos-chat-network:
+  chat-service-network:
     driver: bridge

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/DarioRoman01/delfos-chat/pkg/errors"
+	"github.com/DarioRoman01/chat-service/pkg/errors"
 	"github.com/Netflix/go-env"
 )
 

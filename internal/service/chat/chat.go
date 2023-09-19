@@ -5,9 +5,9 @@ import (
 	"io"
 	"time"
 
-	"github.com/DarioRoman01/delfos-chat/entities"
-	"github.com/DarioRoman01/delfos-chat/internal/repository"
-	"github.com/DarioRoman01/delfos-chat/pkg/errors"
+	"github.com/DarioRoman01/chat-service/entities"
+	"github.com/DarioRoman01/chat-service/internal/repository"
+	"github.com/DarioRoman01/chat-service/pkg/errors"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
 	"github.com/oklog/ulid/v2"
@@ -120,7 +120,7 @@ func (c *ChatService) closeConnWIthErr(conn *websocket.Conn, err error) {
 	conn.Close()
 }
 
-// reads the next json mesasge and check if the connection was finished by the client
+// reads the next json mesasge and check if the connection was finished
 func (c *ChatService) readJSON(conn *websocket.Conn, v interface{}) (connIsFinished bool) {
 	messageType, r, err := conn.NextReader()
 	if messageType == -1 { // no frames

@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"github.com/DarioRoman01/delfos-chat/internal/repository/channels"
-	"github.com/DarioRoman01/delfos-chat/internal/repository/messages"
+	"github.com/DarioRoman01/chat-service/internal/repository/channels"
+	"github.com/DarioRoman01/chat-service/internal/repository/messages"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

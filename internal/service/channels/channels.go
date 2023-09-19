@@ -1,9 +1,9 @@
 package channels
 
 import (
-	"github.com/DarioRoman01/delfos-chat/entities"
-	"github.com/DarioRoman01/delfos-chat/internal/repository"
-	"github.com/DarioRoman01/delfos-chat/pkg/errors"
+	"github.com/DarioRoman01/chat-service/entities"
+	"github.com/DarioRoman01/chat-service/internal/repository"
+	"github.com/DarioRoman01/chat-service/pkg/errors"
 )
 
 type ChannelService struct {

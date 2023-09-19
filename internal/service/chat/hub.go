@@ -3,7 +3,7 @@ package chat
 import (
 	"time"
 
-	"github.com/DarioRoman01/delfos-chat/entities"
+	"github.com/DarioRoman01/chat-service/entities"
 	"github.com/gofiber/contrib/websocket"
 )
 

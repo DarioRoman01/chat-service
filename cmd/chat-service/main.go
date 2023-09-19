@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/DarioRoman01/delfos-chat/config"
-	"github.com/DarioRoman01/delfos-chat/internal/app"
-	"github.com/DarioRoman01/delfos-chat/internal/repository/mongo"
+	"github.com/DarioRoman01/chat-service/config"
+	"github.com/DarioRoman01/chat-service/internal/app"
+	"github.com/DarioRoman01/chat-service/internal/repository/mongo"
 	"github.com/Netflix/go-env"
 	"go.uber.org/zap"
 )

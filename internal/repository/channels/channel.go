@@ -3,8 +3,8 @@ package channels
 import (
 	"context"
 
-	"github.com/DarioRoman01/delfos-chat/entities"
-	"github.com/DarioRoman01/delfos-chat/pkg/errors"
+	"github.com/DarioRoman01/chat-service/entities"
+	"github.com/DarioRoman01/chat-service/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )

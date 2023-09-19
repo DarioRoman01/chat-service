@@ -1,4 +1,4 @@
-module github.com/DarioRoman01/delfos-chat
+module github.com/DarioRoman01/chat-service
 
 go 1.21
 

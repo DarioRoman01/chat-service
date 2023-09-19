@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/DarioRoman01/delfos-chat/internal/delivery/http"
-	"github.com/DarioRoman01/delfos-chat/internal/repository"
-	"github.com/DarioRoman01/delfos-chat/internal/service"
+	"github.com/DarioRoman01/chat-service/internal/delivery/http"
+	"github.com/DarioRoman01/chat-service/internal/repository"
+	"github.com/DarioRoman01/chat-service/internal/service"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.uber.org/zap"

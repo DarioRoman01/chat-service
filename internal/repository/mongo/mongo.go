@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/DarioRoman01/delfos-chat/config"
-	"github.com/DarioRoman01/delfos-chat/pkg/errors"
+	"github.com/DarioRoman01/chat-service/config"
+	"github.com/DarioRoman01/chat-service/pkg/errors"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )

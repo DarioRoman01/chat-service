@@ -1,11 +1,11 @@
 package service
 
 import (
-	"github.com/DarioRoman01/delfos-chat/entities"
-	"github.com/DarioRoman01/delfos-chat/internal/repository"
-	"github.com/DarioRoman01/delfos-chat/internal/service/channels"
-	"github.com/DarioRoman01/delfos-chat/internal/service/chat"
-	"github.com/DarioRoman01/delfos-chat/internal/service/messages"
+	"github.com/DarioRoman01/chat-service/entities"
+	"github.com/DarioRoman01/chat-service/internal/repository"
+	"github.com/DarioRoman01/chat-service/internal/service/channels"
+	"github.com/DarioRoman01/chat-service/internal/service/chat"
+	"github.com/DarioRoman01/chat-service/internal/service/messages"
 	"github.com/gofiber/contrib/websocket"
 )
 

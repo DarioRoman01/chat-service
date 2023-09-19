@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/DarioRoman01/delfos-chat/entities"
+import "github.com/DarioRoman01/chat-service/entities"
 
 type MessageRepository interface {
 	// Creates a new message record in the database

@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/DarioRoman01/delfos-chat/internal/service"
+	"github.com/DarioRoman01/chat-service/internal/service"
 	"github.com/gofiber/contrib/websocket"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
